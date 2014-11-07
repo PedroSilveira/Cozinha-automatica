@@ -1,0 +1,54 @@
+#include <Servo.h>
+Servo motor;
+int servo1 = A4;
+int servo2 = A5;
+int gas = 3;
+int temper = 6;
+int pre = 2;
+int buz = 5;
+int led=7;
+int angMax=90;
+void setup ()
+{
+ pinMode (gas,INPUT);
+ pinMode (temper,INPUT);
+ pinMode (pre, INPUT);
+ pinMode (buz, INPUT);
+ pinMode (led,OUTPUT);
+ motor.attach(A4);
+ motor.attach(A5);
+}
+void loop() {
+  int i;
+  while(((gas == LOW)) || ((temper == HIGH)));
+  {
+     digitalRead (gas);
+     analogRead (temper);
+     digitalRead(pre);
+     if ((pre)>50)
+     {
+       digitalWrite(led, HIGH);
+     }
+       else{
+         delay (5000);
+         digitalWrite(led,LOW);
+       }
+   }
+  digitalWrite(buz, HIGH);
+  digitalWrite(led, LOW);
+  for(i=0;i<angMax;i++) {
+  motor.write(i); 
+  delay(10);
+  } 
+  while((gas)== HIGH || ((temper) == HIGH))
+  {
+    digitalRead(gas);
+    digitalRead(temper);
+    delay(1000);
+  }
+ digitalWrite(buz,LOW);
+ for(i=angMax;i>0;i--) {
+ motor.write(i); 
+ delay(10); 
+ }
+}
